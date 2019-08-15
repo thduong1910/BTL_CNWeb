@@ -21,13 +21,14 @@
 				<div class="col-3" id="left">
 					<div class="row text-center" id="menu">
 						<div class="col-12">
-							<a href="#"><h4><i class="fa fa-home"></i>Trang Chủ</h4></a>
+							<a href="index.html"><h4><i class="fa fa-home"></i>Trang Chủ</h4></a>
 						</div>
 					</div>
 					<div class="qc">
 						<a href="#"><img src="images/qc.gif" class="mx-auto d-block"></a>
 					</div>
 				</div>
+				
 				<div class="col-9">
 					<div class="row" id="login_page">
 						<div class="col-12">
@@ -37,22 +38,51 @@
 	            					<div id="login-row" class="row justify-content-center align-items-center">
 	                					<div id="login-column" class="col-md-6">
 	                    					<div id="login-box" class="col-md-12">
-	                        					<form id="login-form" class="form" action="" method="post">
-	                            					<h3 class="text-center text-info">Login</h3>
+	                    						<div class="col-12 text-center text-red">
+	                    							<?php
+	                    							require('connect.php');
+	                    							if (isset($_POST['submit'])) {
+	                    								$email = $_POST['email'];
+	                    								$password = $_POST['password'];
+	                    								$sql = "SELECT * FROM users WHERE email='$email' and password = '$password' limit 1";
+	                    								$query = mysqli_query($conn,$sql);
+	                    								$num = 	mysqli_num_rows($query);
+	                    								if ($num == 0) {
+	                    									echo "Khong dung !";
+	                    									# code...
+	                    								}else {
+	                    									$_SESSION['email'] = $email;
+	                    									header('location:index.html');
+	                    									# code...
+	                    								}
+	                    								# code...
+	                    							}
+	                    						?>
+	                    						</div>
+	                    						
+
+
+	                        					<form id="login-form" class="form" action="" method="POST">
+	                            					<h3 class="text-center text-black">Login</h3>
+                          							<div class="form-group">
+											    		<label for="exampleInputEmail1">Địa chỉ email:</label>
+											    		<input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" name="email" required
+	  													value="<?php if (isset($_POST['email'])) echo $_POST['email']; ?>">
+											    		<small id="emailHelp" class="form-text text-muted"></small>
+											  		</div>
 	                            					<div class="form-group">
-	                               						<label for="username" class="text-info">Email:</label><br>
-	                                					<input type="text" name="username" id="username" class="form-control">
-	                            					</div>
+									    				<label for="password">Mật khẩu:</label>
+									      				<input type="password" size="60px" class="form-control" id="password1" name="password" 
+										  					placeholder="Password" required
+	 														value="<?php if (isset($_POST['password'])) echo $_POST['password']; ?>" minlength="6" maxlength="20">
+										  				<span id='message'><pre>        (Mật khẩu dài từ 6-20 ký tự.)</pre></span>
+									  				</div>
 	                            					<div class="form-group">
-	                                					<label for="password" class="text-info">Password:</label><br>
-	                                					<input type="text" name="password" id="password" class="form-control">
-	                            					</div>
-	                            					<div class="form-group">
-	                                					<label for="remember-me" class="text-info"><span>Remember me</span> <span><input id="remember-me" name="remember-me" type="checkbox"></span></label><br>
-	                                					<input type="submit" name="submit" class="btn btn-info btn-md" value="submit">
-	                            					</div>
-	                            					<div id="register-link" class="text-right">
-	                                					<a href="#" class="text-info">Register here</a>
+	                                					<label for="remember-me" class="text-black"><span>Nhớ mật khẩu</span> <span><input id="remember-me" name="remember-me" type="checkbox"></span></label><br>
+	                            					</div>		
+											  		<button type="submit" name="submit" class="btn btn-primary">Đăng nhập</button>
+	                            					<div id="register-link" class="text-right text-black">
+	                                					<a href="#" class="text-info">Đăng ký</a>
 	                            					</div>
 	                        					</form>
 	                    					</div>
